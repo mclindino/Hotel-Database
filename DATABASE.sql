@@ -1,9 +1,13 @@
-DROP DATABASE REDE_COMPANHIA;
+-- Deleta o database caso exista
+DROP DATABASE IF EXISTS REDE_COMPANHIA;
 
+--Cria o database
 CREATE DATABASE REDE_COMPANHIA;
 
+--Coloca em uso
 USE REDE_COMPANHIA;
 
+--Criacao de cada tabela
 CREATE TABLE FUNCIONARIO
 (
     ID_Funcionario          INT                 NOT NULL,
