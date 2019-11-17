@@ -1,5 +1,11 @@
+/*
+ *   Projeto de Banco de Dados - Rede Hoteleira
+ *   Matheus Lindino - mclindino@inf.ufpel.edu.br
+ *   Andre Dalla Costa - azdcosta@inf.ufpel.edu.br
+ */   
+ 
 -- Deleta o database caso exista
-DROP DATABASE IF EXISTS REDE_COMPANHIA;
+DROP DATABASE IF EXISTS REDE_HOTELEIRA;
 
 -- Cria o database
 CREATE DATABASE REDE_HOTELEIRA;
@@ -20,20 +26,16 @@ CREATE TABLE FUNCIONARIO
 
 CREATE TABLE CLIENTE
 (
-    Cpf                 INT             NOT NULL,
-    ID_Funcionario      INT             NOT NULL,
+    Cpf                 CHAR(11)        NOT NULL,
     Nome                VARCHAR(15)     NOT NULL,
     Endereco            VARCHAR(30)     NOT NULL,
-    Telefone            CHAR(11)        NOT NULL,
-    PRIMARY KEY (Cpf),
-    FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    Telefone            CHAR(12)        NOT NULL,
+    PRIMARY KEY (Cpf)
 );
 
 CREATE TABLE COMUNICA
 (
-    Cpf                 INT         NOT NULL,
+    Cpf                 CHAR(11)    NOT NULL,
     ID_Funcionario      INT         NOT NULL,
     Data_Atendimento    DATE        NOT NULL,
     FOREIGN KEY (Cpf) REFERENCES CLIENTE (Cpf)
@@ -56,10 +58,10 @@ CREATE TABLE RECEPCIONISTA
 
 CREATE TABLE CAMAREIRA
 (
-    ID_Funcionario      INT         NOT NULL,
-    Horario_Entrada     INT         NOT NULL,
-    Horario_Saida       INT         NOT NULL,
-    Dias_Disponiveis    INT         NOT NULL,
+    ID_Funcionario      INT               NOT NULL,
+    Horario_Entrada     CHAR(5)           NOT NULL,
+    Horario_Saida       CHAR(5)           NOT NULL,
+    Dias_Disponiveis    VARCHAR(50)       NOT NULL,
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -77,11 +79,11 @@ CREATE TABLE GERENTE
 CREATE TABLE HOTEL
 (
     ID_Hotel         INT             NOT NULL,
-    Cep              INT             NOT NULL,
+    Cep              CHAR(9)         NOT NULL,
     Nome             VARCHAR(15)     NOT NULL,
     Cidade           VARCHAR(15),
-    Estado           VARCHAR(10),
-    Telefone         CHAR(11)        NOT NULL,
+    Estado           VARCHAR(2),
+    Telefone         CHAR(12)        NOT NULL,
     Sauna            BINARY,
     Piscina          BINARY,
     Salao_De_Jogos   BINARY,
@@ -110,7 +112,7 @@ CREATE TABLE RESERVA
     ID_Quarto           INT         NOT NULL,
     ID_Funcionario      INT         NOT NULL,
     ID_Reserva          INT         NOT NULL,
-    Cpf                 INT         NOT NULL,
+    Cpf                 CHAR(11)    NOT NULL,
     Check_In            DATE        NOT NULL,
     Check_Out           DATE        NOT NULL,
     PRIMARY KEY (ID_Reserva),
@@ -154,7 +156,6 @@ CREATE TABLE FORNECEDOR
 (
     ID_Fornecedor           INT             NOT NULL,
     Nome                    VARCHAR(30)     NOT NULL,
-    Data_Entrega            DATE            NOT NULL,
     PRIMARY KEY (ID_Fornecedor)
 );
 
@@ -181,6 +182,7 @@ CREATE TABLE ABASTECE
 (
     ID_Hotel          INT             NOT NULL,
     ID_Produto        INT             NOT NULL,
+    Data_Entrega      DATE            NOT NULL,
     FOREIGN KEY (ID_Produto) REFERENCES PRODUTO (ID_Produto)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
