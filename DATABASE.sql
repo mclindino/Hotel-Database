@@ -1,13 +1,13 @@
 -- Deleta o database caso exista
 DROP DATABASE IF EXISTS REDE_COMPANHIA;
 
---Cria o database
+-- Cria o database
 CREATE DATABASE REDE_COMPANHIA;
 
---Coloca em uso
+-- Coloca em uso
 USE REDE_COMPANHIA;
 
---Criacao de cada tabela
+-- Criacao de cada tabela
 CREATE TABLE FUNCIONARIO
 (
     ID_Funcionario          INT                 NOT NULL,
@@ -24,9 +24,11 @@ CREATE TABLE CLIENTE
     ID_Funcionario      INT             NOT NULL,
     Nome                VARCHAR(15)     NOT NULL,
     Endereco            VARCHAR(30)     NOT NULL,
-    Telefone            INT             NOT NULL,
+    Telefone            CHAR(11)        NOT NULL,
     PRIMARY KEY (Cpf),
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE COMUNICA
@@ -34,8 +36,12 @@ CREATE TABLE COMUNICA
     Cpf                 INT         NOT NULL,
     ID_Funcionario      INT         NOT NULL,
     Data_Atendimento    DATE        NOT NULL,
-    FOREIGN KEY (Cpf) REFERENCES CLIENTE (Cpf),
+    FOREIGN KEY (Cpf) REFERENCES CLIENTE (Cpf)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE RECEPCIONISTA
@@ -44,6 +50,8 @@ CREATE TABLE RECEPCIONISTA
     Turno               VARCHAR(10)     NOT NULL,
     Idioma              VARCHAR(30),
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE CAMAREIRA
@@ -53,6 +61,8 @@ CREATE TABLE CAMAREIRA
     Horario_Saida       INT         NOT NULL,
     Dias_Disponiveis    INT         NOT NULL,
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE GERENTE
@@ -60,6 +70,8 @@ CREATE TABLE GERENTE
     ID_Funcionario      INT         NOT NULL,
     Data_Ingresso       DATE,
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE HOTEL
@@ -69,7 +81,7 @@ CREATE TABLE HOTEL
     Nome             VARCHAR(15)     NOT NULL,
     Cidade           VARCHAR(15),
     Estado           VARCHAR(10),
-    Telefone         INT             NOT NULL,
+    Telefone         CHAR(11)        NOT NULL,
     Sauna            BINARY,
     Piscina          BINARY,
     Salao_De_Jogos   BINARY,
@@ -89,6 +101,8 @@ CREATE TABLE QUARTO
     
     PRIMARY KEY (ID_Quarto),
     FOREIGN KEY (ID_Hotel) REFERENCES HOTEL (ID_Hotel)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE RESERVA
@@ -100,17 +114,27 @@ CREATE TABLE RESERVA
     Check_In            DATE        NOT NULL,
     Check_Out           DATE        NOT NULL,
     PRIMARY KEY (ID_Reserva),
-    FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario),
-    FOREIGN KEY (ID_Quarto) REFERENCES QUARTO (ID_Quarto),
+    FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (ID_Quarto) REFERENCES QUARTO (ID_Quarto)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (Cpf) REFERENCES CLIENTE (Cpf)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE LIMPA
 (
     ID_Quarto           INT         NOT NULL,
     ID_Funcionario      INT         NOT NULL,
-    FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario),
+    FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (ID_Quarto) REFERENCES QUARTO (ID_Quarto)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE EVENTO
@@ -122,6 +146,8 @@ CREATE TABLE EVENTO
     Data_Fim            DATE            NOT NULL,
     PRIMARY KEY (ID_Evento),
     FOREIGN KEY (ID_Hotel) REFERENCES HOTEL (ID_Hotel)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE FORNECEDOR
@@ -143,15 +169,23 @@ CREATE TABLE FORNECE
 (
     ID_Produto          INT             NOT NULL,
     ID_Fornecedor       INT             NOT NULL,
-    FOREIGN KEY (ID_Produto) REFERENCES PRODUTO (ID_Produto),
+    FOREIGN KEY (ID_Produto) REFERENCES PRODUTO (ID_Produto)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (ID_Fornecedor) REFERENCES FORNECEDOR (ID_Fornecedor)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE ABASTECE
 (
     ID_Hotel          INT             NOT NULL,
     ID_Produto        INT             NOT NULL,
-    FOREIGN KEY (ID_Produto) REFERENCES PRODUTO (ID_Produto),
+    FOREIGN KEY (ID_Produto) REFERENCES PRODUTO (ID_Produto)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (ID_Hotel) REFERENCES HOTEL (ID_Hotel)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
