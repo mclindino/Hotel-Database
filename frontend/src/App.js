@@ -36,14 +36,18 @@ class App extends Component {
     }
 
     this.updateSelectedUser = (event) => {
+      let { currentTable } = this.state;
+        
       if (event.target.value === 'Recepcionista') {
-        const { currentTable } = this.state;
+        currentTable = recepcionistaTables.includes(currentTable) ? currentTable : recepcionistaTables[0] 
+        this.populateTable(currentTable);
         this.setState({
           selectedUser: event.target.value,
           tables: recepcionistaTables,
-          currentTable: recepcionistaTables.includes(currentTable) ? currentTable : recepcionistaTables[0] 
+          currentTable,
         })
       } else {
+        this.populateTable(currentTable);
         this.setState({
           selectedUser: event.target.value,
           tables: gerenteTables,
@@ -52,19 +56,46 @@ class App extends Component {
     };
 
     this.updateCurrentTable = (event) => {
+      this.populateTable(event.target.value);
       this.setState({
         currentTable: event.target.value,
       })
     }
 
+
+    this.populateTable = (currentTable) => {
+      const tableData = [];
+      const tableColumns = [];
+      
+      axios.get(`http://0.0.0.0:5000/${currentTable}`, {
+        params: {},
+      }).then((resData) => {
+        const receivedData = resData.data;
+        const keys = Object.keys(receivedData);
+
+        keys.forEach((key) => {
+          tableData.push(receivedData[key]);
+        });
+        
+        Object.keys(receivedData[keys[0]]).forEach((key) => {
+          tableColumns.push({
+            'title': key,
+            'field': key,  
+          });
+        });
+
+        this.setState({
+          tableColumns,
+          tableData,
+        })
+
+      });
+    }
   }
 
   componentDidMount() {
-    axios.get(`http://0.0.0.0:5000/oi`, {
-      params: {},
-    }).then((resData) => {
-      console.log(resData.data);
-    });
+    const { currentTable } = this.state;
+    this.populateTable(currentTable);
   }
 
   render() {
@@ -104,4 +135,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
