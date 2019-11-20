@@ -1,0 +1,31 @@
+USE REDE_HOTELEIRA;
+
+-- Recepcionista
+SELECT * FROM CLIENTE;
+SELECT * FROM RESERVA;
+SELECT * FROM QUARTO;
+
+SELECT ID_Quarto, Capacidade, N_Banheiros, Wifi, ArCondicionado, Frigobar FROM QUARTO WHERE Status_Quarto = 'Livre';
+SELECT * FROM CLIENTE WHERE Nome = 'Jesus'; -- Nome do Cliente que deseja
+SELECT ID_Quarto, Status FROM RESERVA WHERE Check_in != '2019-08-10'   -- Data desejada
+					    Check_out != '2019-08-16'; -- Data desejada
+
+-- Gerente
+SELECT * FROM HOTEL;
+SELECT * FROM QUARTO;
+SELECT * FROM CLIENTE;
+SELECT * FROM RESERVA;
+SELECT * FROM COMUNICA;
+SELECT * FROM RECEPCIONISTA;
+SELECT * FROM CAMAREIRA;
+SELECT * FROM GERENTE;
+SELECT * FROM FUNCIONARIO;
+SELECT * FROM LIMPA;
+SELECT * FROM EVENTO;
+SELECT * FROM FORNECEDOR;
+SELECT * FROM PRODUTO;
+SELECT * FROM ABASTECE;
+
+SELECT ID_Funcionario, Nome, Salario, Tipo FROM FUNCIONARIO WHERE Salario >= 3000; -- Valor Desejado
+SELECT Nome, Horario_Entrada FROM FUNCIONARIO, CAMAREIRA  WHERE CAMAREIRA.Horario_Entrada LIKE 'Segunda%'; -- Conjunto de Dias desejados 
+

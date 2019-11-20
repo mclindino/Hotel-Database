@@ -47,7 +47,7 @@ CREATE TABLE COMUNICA
 CREATE TABLE RECEPCIONISTA
 (
     ID_Funcionario      INT             NOT NULL,
-    Turno               VARCHAR(10)     NOT NULL,
+    Turno               VARCHAR(30)     NOT NULL,
     Idioma              VARCHAR(30),
     FOREIGN KEY (ID_Funcionario) REFERENCES FUNCIONARIO (ID_Funcionario)
         ON DELETE CASCADE
