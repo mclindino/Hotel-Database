@@ -28,6 +28,7 @@ class App extends Component {
       currentPage: 'home',
       disableInsert: false,
       disableDelete: true,
+      disableUpdate: true,
     }
 
     this.updateSelectedUser = (event) => {
@@ -106,7 +107,6 @@ class App extends Component {
           tableColumns,
           tableData,
         })
-
       });
     }
 
@@ -120,18 +120,25 @@ class App extends Component {
 
     this.updateSelectedRows = (event) => {
       const { currentTable } = this.state;
-      if ((event.length > 0) && ((currentTable === 'CLIENTE' || currentTable === 'RESERVA'))) {
+      if ((event.length === 1) && (currentTable === 'RESERVA')) {
         this.setState({
           selectedRows: event,
           disableDelete: false,
+          disableUpdate: false,
+        })
+      } else if ((event.length > 0) && ((currentTable === 'CLIENTE') || (currentTable === 'RESERVA'))) {
+        this.setState({
+          selectedRows: event,
+          disableDelete: false,
+          disableUpdate: true,
         })
       } else {
         this.setState({
           selectedRows: event,
           disableDelete: true,
+          disableUpdate: true,
         })
       }
-
     }
 
     this.insertData = () => {
@@ -146,6 +153,9 @@ class App extends Component {
           this.setState({
             currentPage: 'home',
             inputText: {},
+            disableDelete: true,
+            disableUpdate: true,
+            
           })
         });
     }
@@ -153,12 +163,27 @@ class App extends Component {
     this.deleteData = () => {
       const { currentTable, selectedRows } = this.state
       selectedRows.forEach((elem) => {
-        axios.post(`http://0.0.0.0:5000/${currentTable}`, { data: elem })
+        axios.post(`http://0.0.0.0:5000/${currentTable}`, { data: elem, action: 'delete' })
+          .then(() => {
+            this.populateTable(currentTable);
+            this.setState({
+              disableDelete: true,
+              disableUpdate: true,
+            })
+          });
+      })
+    }
+
+    this.updateData = () => {
+      const { currentTable, selectedRows } = this.state
+      axios.post(`http://0.0.0.0:5000/${currentTable}`, { data: selectedRows[0], action: 'update' })
         .then(() => {
           this.populateTable(currentTable);
+          this.setState({
+            disableDelete: true,
+            disableUpdate: true,
+          })
         });
-      })
-      
     }
   }
 
@@ -177,6 +202,7 @@ class App extends Component {
       insertData,
       updateSelectedRows,
       deleteData,
+      updateData,
     } = this;
     const contextValue = {
       ...this.state,
@@ -187,6 +213,7 @@ class App extends Component {
       insertData,
       updateSelectedRows,
       deleteData,
+      updateData,
     }
 
     return (

@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <AppContext.Consumer>
       {({
-        updateCurrentPage, disableInsert, disableDelete, deleteData
+        updateCurrentPage, disableInsert, disableDelete, deleteData, updateData, disableUpdate,
       }) => (
           <div>
             <Grid container>
@@ -58,6 +58,15 @@ const Home = () => {
               onClick={() => deleteData()}
             >
               Deletar
+            </Button>
+            <Button
+              style={{margin: '10px 10px 10px 0px'}}
+              color="primary"
+              variant="contained"
+              disabled={disableUpdate}
+              onClick={() => updateData()}
+            >
+              Alterar Status
             </Button>
           </div>
         )}

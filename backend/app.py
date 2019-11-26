@@ -64,9 +64,21 @@ def reserva():
         return "Inserido"
     if request.method == "POST":
         data = request.get_json(silent=True)
-        engine.execute("DELETE FROM RESERVA WHERE ID_Reserva = %s"%(
-                      data["data"]["ID_Reserva"])
-        )
+        if data["action"] == "delete":
+          engine.execute("DELETE FROM RESERVA WHERE ID_Reserva = %s"%(
+                        data["data"]["ID_Reserva"])
+          )
+          return 'Deletado'
+        else:
+          if data["data"]["Status"] == "Confirmado":
+              data["data"]["Status"] = "Cancelado"
+          else:
+              data["data"]["Status"] = "Confirmado"
+          
+          engine.execute("UPDATE RESERVA SET Status = '%s' WHERE ID_Reserva = %s"%(
+                        data["data"]["Status"],
+                        data["data"]["ID_Reserva"])
+          )
         return 'Deletado'
 
 @app.route('/QUARTO', methods=['GET'])
