@@ -7,8 +7,13 @@ const AppContext = React.createContext({
   currentTable: '',
   tableColumns: [],
   tableData: [],
+  inputText: [],
   updateSelectedUser: () => { },
   updateCurrentTable: () => { },
+  updateInputText: () => { },
+  updateCurrentPage: () => { },
+  insertData: () => { },
 });
 
 export default AppContext;
+

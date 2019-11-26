@@ -22,19 +22,52 @@ def evento():
         df.Data_Fim = df.Data_Fim.apply(lambda x: x.strftime('%d/%m/%Y'))
         return json.loads(json.dumps(df.to_dict(orient="index")))
 
-@app.route('/CLIENTE', methods=['GET'])
+@app.route('/CLIENTE', methods=['GET', 'PUT', 'POST'])
 def cliente():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM CLIENTE""", con=engine)
         return json.loads(json.dumps(df.to_dict(orient="index")))
+    if request.method == "PUT":
+        data = request.get_json(silent=True)
+        engine.execute("INSERT INTO CLIENTE VALUES (%s, '%s', '%s', %s)"%(
+                      data["data"]["Cpf"],
+                      data["data"]["Nome"],
+                      data["data"]["Endereco"],
+                      data["data"]["Telefone"])
+        )
+        return "Inserido"
+    if request.method == "POST":
+        data = request.get_json(silent=True)
+        engine.execute("DELETE FROM CLIENTE WHERE CPF = %s"%(
+                      data["data"]["Cpf"])
+        )
+        return 'Deletado'
 
-@app.route('/RESERVA', methods=['GET'])
+@app.route('/RESERVA', methods=['GET', 'PUT', 'POST'])
 def reserva():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM RESERVA""", con=engine)
         df.Check_In = df.Check_In.apply(lambda x: x.strftime('%d/%m/%Y'))
         df.Check_Out = df.Check_Out.apply(lambda x: x.strftime('%d/%m/%Y'))
         return json.loads(json.dumps(df.to_dict(orient="index")))
+    if request.method == "PUT":
+        data = request.get_json(silent=True)
+        engine.execute("INSERT INTO RESERVA VALUES (%s, %s, %s, '%s', '%s', '%s', '%s')"%(
+                      data["data"]["ID_Quarto"],
+                      data["data"]["ID_Funcionario"],
+                      data["data"]["ID_Reserva"],
+                      data["data"]["Cpf"],
+                      data["data"]["Check_In"],
+                      data["data"]["Check_Out"],
+                      data["data"]["Status"])
+        )
+        return "Inserido"
+    if request.method == "POST":
+        data = request.get_json(silent=True)
+        engine.execute("DELETE FROM RESERVA WHERE ID_Reserva = %s"%(
+                      data["data"]["ID_Reserva"])
+        )
+        return 'Deletado'
 
 @app.route('/QUARTO', methods=['GET'])
 def quarto():

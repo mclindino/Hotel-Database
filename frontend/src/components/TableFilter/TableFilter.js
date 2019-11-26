@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import useStyles from './styles';
-import AppContext from '../../AppContext';
+import AppContext from '../../pages/App/AppContext';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
