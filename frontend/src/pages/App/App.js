@@ -120,17 +120,11 @@ class App extends Component {
 
     this.updateSelectedRows = (event) => {
       const { currentTable } = this.state;
-      if ((event.length === 1) && (currentTable === 'RESERVA')) {
+      if ((event.length > 0) && ((currentTable === 'CLIENTE') || (currentTable === 'RESERVA'))) {
         this.setState({
           selectedRows: event,
           disableDelete: false,
           disableUpdate: false,
-        })
-      } else if ((event.length > 0) && ((currentTable === 'CLIENTE') || (currentTable === 'RESERVA'))) {
-        this.setState({
-          selectedRows: event,
-          disableDelete: false,
-          disableUpdate: true,
         })
       } else {
         this.setState({
@@ -155,7 +149,7 @@ class App extends Component {
             inputText: {},
             disableDelete: true,
             disableUpdate: true,
-            
+
           })
         });
     }
@@ -176,14 +170,16 @@ class App extends Component {
 
     this.updateData = () => {
       const { currentTable, selectedRows } = this.state
-      axios.post(`http://0.0.0.0:5000/${currentTable}`, { data: selectedRows[0], action: 'update' })
-        .then(() => {
-          this.populateTable(currentTable);
-          this.setState({
-            disableDelete: true,
-            disableUpdate: true,
-          })
-        });
+      selectedRows.forEach((elem) => {
+        axios.post(`http://0.0.0.0:5000/${currentTable}`, { data: elem, action: 'update' })
+          .then(() => {
+            this.populateTable(currentTable);
+            this.setState({
+              disableDelete: true,
+              disableUpdate: true,
+            })
+          });
+      })
     }
   }
 
