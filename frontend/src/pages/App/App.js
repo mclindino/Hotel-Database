@@ -124,8 +124,17 @@ class App extends Component {
         this.setState({
           selectedRows: event,
           disableDelete: false,
-          disableUpdate: false,
         })
+        if (currentTable !== 'RESERVA') {
+          this.setState({
+            disableUpdate: true,
+          });
+        }
+        else{
+          this.setState({
+            disableUpdate: false,
+          });
+        }
       } else {
         this.setState({
           selectedRows: event,

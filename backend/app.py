@@ -85,9 +85,10 @@ def reserva():
 def quarto():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM QUARTO""", con=engine)
-        df.Wifi = df.Wifi.apply(lambda x: 'Sim' if('1' in str(x)) else 'Não')
-        df.ArCondicionado = df.ArCondicionado.apply(lambda x: 'Sim' if('1' in str(x)) else 'Não')
-        df.Frigobar = df.Frigobar.apply(lambda x: 'Sim' if('1' in str(x)) else 'Não')
+        print(df)
+        df.Wifi = df.Wifi.apply(lambda x: 'Sim' if('Y' in str(x)) else 'Não')
+        df.ArCondicionado = df.ArCondicionado.apply(lambda x: 'Sim' if('Y' in str(x)) else 'Não')
+        df.Frigobar = df.Frigobar.apply(lambda x: 'Sim' if('Y' in str(x)) else 'Não')
         return json.loads(json.dumps(df.to_dict(orient="index")))
 
 @app.route('/ABASTECE', methods=['GET'])
