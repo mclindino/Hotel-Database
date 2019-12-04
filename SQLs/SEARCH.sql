@@ -9,7 +9,8 @@ SELECT ID_Quarto, Capacidade, N_Banheiros, Wifi, ArCondicionado, Frigobar FROM Q
 SELECT * FROM CLIENTE WHERE Cpf = '09459325963'; -- Nome do Cliente que deseja
 SELECT ID_Quarto, Status FROM RESERVA WHERE Check_in != '2019-08-10'   -- Data desejada
 					    Check_out != '2019-08-16'; -- Data desejada
- 
+SELECT ID_Reserva, Check_In, Check_Out, Nome, Status FROM RESERVA, CLIENTE WHERE CLIENTE.Nome = 'Lindino' -- Log de reserva por nome de cliente
+
 UPDATE RESERVA SET Status = 'Cancelado' WHERE ID_Reserva = '1'
 UPDATE CLIENTE SET Endereco = 'Rua Geronimo, 989' WHERE Cpf = '5'
 

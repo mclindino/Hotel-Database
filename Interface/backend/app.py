@@ -20,13 +20,13 @@ def evento():
         df = pd.read_sql("""SELECT * FROM EVENTO""", con=engine)
         df.Data_Inicio = df.Data_Inicio.apply(lambda x: x.strftime('%d/%m/%Y'))
         df.Data_Fim = df.Data_Fim.apply(lambda x: x.strftime('%d/%m/%Y'))
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/CLIENTE', methods=['GET', 'PUT', 'POST'])
 def cliente():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM CLIENTE""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
     if request.method == "PUT":
         data = request.get_json(silent=True)
         engine.execute("INSERT INTO CLIENTE VALUES (%s, '%s', '%s', %s)"%(
@@ -49,7 +49,7 @@ def reserva():
         df = pd.read_sql("""SELECT * FROM RESERVA""", con=engine)
         df.Check_In = df.Check_In.apply(lambda x: x.strftime('%d/%m/%Y'))
         df.Check_Out = df.Check_Out.apply(lambda x: x.strftime('%d/%m/%Y'))
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
     if request.method == "PUT":
         data = request.get_json(silent=True)
         engine.execute("INSERT INTO RESERVA VALUES (%s, %s, %s, '%s', '%s', '%s', '%s')"%(
@@ -89,52 +89,52 @@ def quarto():
         df.Wifi = df.Wifi.apply(lambda x: 'Sim' if('Y' in str(x)) else 'Não')
         df.ArCondicionado = df.ArCondicionado.apply(lambda x: 'Sim' if('Y' in str(x)) else 'Não')
         df.Frigobar = df.Frigobar.apply(lambda x: 'Sim' if('Y' in str(x)) else 'Não')
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/ABASTECE', methods=['GET'])
 def abastece():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM ABASTECE""", con=engine)
         df.Data_Entrega = df.Data_Entrega.apply(lambda x: x.strftime('%d/%m/%Y'))
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/CAMAREIRA', methods=['GET'])
 def camareira():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM CAMAREIRA""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/COMUNICA', methods=['GET'])
 def comunica():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM COMUNICA""", con=engine)
         df.Data_Atendimento = df.Data_Atendimento.apply(lambda x: x.strftime('%d/%m/%Y'))
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/FORNECE', methods=['GET'])
 def fornece():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM FORNECE""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/FORNECEDOR', methods=['GET'])
 def fornecedor():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM FORNECEDOR""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/FUNCIONARIO', methods=['GET'])
 def funcionario():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM FUNCIONARIO""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/GERENTE', methods=['GET'])
 def gerente():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM GERENTE""", con=engine)
         df.Data_Ingresso = df.Data_Ingresso.apply(lambda x: x.strftime('%d/%m/%Y'))
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/HOTEL', methods=['GET'])
 def hotel():
@@ -143,25 +143,25 @@ def hotel():
         df.Sauna = df.Sauna.apply(lambda x: 'Sim' if('1' in str(x)) else 'Não')
         df.Piscina = df.Piscina.apply(lambda x: 'Sim' if('1' in str(x)) else 'Não')
         df.Salao_De_Jogos = df.Salao_De_Jogos.apply(lambda x: 'Sim' if('1' in str(x)) else 'Não')
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/LIMPA', methods=['GET'])
 def limpa():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM LIMPA""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/PRODUTO', methods=['GET'])
 def produto():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM PRODUTO""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 @app.route('/RECEPCIONISTA', methods=['GET'])
 def recepcionista():
     if request.method == "GET":
         df = pd.read_sql("""SELECT * FROM RECEPCIONISTA""", con=engine)
-        return json.loads(json.dumps(df.to_dict(orient="index")))
+        return json.dumps(df.to_dict(orient="index"))
 
 
 if __name__ == '__main__':
